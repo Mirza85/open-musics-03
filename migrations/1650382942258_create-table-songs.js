@@ -41,7 +41,7 @@ exports.up = pgm => {
 
             },
             name: {
-                type: 'VARCHAR',
+                type: 'VARCHAR(30)',
                 notNull: true,
             },
             year: {

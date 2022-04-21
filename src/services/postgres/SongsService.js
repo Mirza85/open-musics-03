@@ -15,7 +15,7 @@ class SongsService {
 
         const query = {
             text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id',
-            values: [id, title, year, performer, genre, duration, albumId]
+            values: [id, title, year, genre, performer, duration, albumId]
         }
 
         const result = await this._pool.query(query);
@@ -44,7 +44,36 @@ class SongsService {
         if (!result.rows[0]) {
             throw new NotFoundError('Lagu tidak ditemukan')
         }
-        return result.rows[0].id;
+        return result.rows.map(mapDBToModel)[0];
+    }
+
+    async editSongById(id, { title, year, genre, performer, duration, album_id }) {
+        const query = {
+            text: 'UPDATE songs set title = $1,year = $2, genre = $3, performer = $4, duration = $5, album_id = $6 where id = $7 RETURNING id',
+            values: [title, year, genre, performer, duration, album_id, id],
+        };
+        const result = await this._pool.query(query);
+
+        if (!result.rows.length) {
+            throw new NotFoundError('Gagal memperbarui lagu. Id tidak ditemukan');
+        }
+
+
+
+    }
+
+    async deleteSongById(id) {
+        const query = {
+            text: 'DELETE from songs where id = $1 returning id',
+            values: [id],
+        };
+
+        const result = await this._pool.query(query);
+
+        if (!result.rows.length) {
+            throw new NotFoundError('gagal menghapus lagu. Id tidak ditemukan')
+        }
+
     }
 }
 
