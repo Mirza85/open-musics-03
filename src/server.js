@@ -28,6 +28,10 @@ const collaborations = require('./api/Collaborations');
 const CollaborationsService = require('./services/postgres/CollaborationsService');
 const CollaborationsValidator = require('./validator/collaborations')
 
+const playlistSongs = require('./api/PlaylistSongs');
+const PlaylistSongsService = require('./services/postgres/PlaylistSongsService');
+const PlaylistSongsValidator = require('./validator/playlistSongs')
+
 const init = async() => {
     const collaborationsService = new CollaborationsService();
     const songsService = new SongsService();
@@ -35,6 +39,7 @@ const init = async() => {
     const userService = new UserService();
     const playlistsService = new PlaylistsService(collaborationsService);
     const authenticationsService = new AuthenticationsService();
+    const playlistSongsService = new PlaylistSongsService();
 
     const server = Hapi.server({
         port: process.env.PORT,
@@ -53,8 +58,8 @@ const init = async() => {
     }]);
 
     //mendeefinisikan strategy otentifikasi
-    server.auth.strategy('opeenmusicapp_jwt', 'jwt', {
-        key: process.env.ACCESS_TOKEN_KEY,
+    server.auth.strategy('openmusicsapp_jwt', 'jwt', {
+        keys: process.env.ACCESS_TOKEN_KEY,
         verify: {
             aud: false,
             iss: false,
@@ -113,6 +118,15 @@ const init = async() => {
                 userService,
                 playlistsService,
 
+            }
+        },
+        {
+            plugin: playlistSongs,
+            options: {
+                playlistSongsService,
+                songsService,
+                playlistsService,
+                validator: PlaylistSongsValidator,
             }
         }
 

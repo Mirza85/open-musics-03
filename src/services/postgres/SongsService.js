@@ -75,6 +75,19 @@ class SongsService {
         }
 
     }
+    async getSongsByPlaylistId(playlistId) {
+        const query = {
+            text: 'select songs.id, songs.title, songs.performer from songs left join playlistsongs ON playlistsongs.song_id = songs.id where playlistsongs.playlist_id= $1',
+            values: [playlistId],
+        };
+        const result = await this._pool.query(query);
+
+        return result.rows;
+
+
+    }
 }
+
+
 
 module.exports = SongsService;

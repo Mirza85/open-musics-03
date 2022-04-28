@@ -50,7 +50,7 @@ class Collaborationshandler {
         }
     }
 
-    async deleteCollaboration(request, h) {
+    async deleteCollaborationHandler(request, h) {
         try {
 
             this._validator.validateCollaborationPayload(request.payload);
