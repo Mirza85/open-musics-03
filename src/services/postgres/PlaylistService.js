@@ -50,6 +50,7 @@ class PlaylistService {
     }
 
     async deletePlaylistsById(id) {
+        //console.log(id);
         const query = {
             text: 'delete from playlists where id = $1 returning id',
             values: [id],

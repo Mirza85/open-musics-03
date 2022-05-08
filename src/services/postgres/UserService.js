@@ -41,6 +41,7 @@ class UsersService {
 
 
     async getUserById(userId) {
+        //console.log(userId)
         const query = {
             text: 'select id, username,fullname from users where id = $1',
             values: [userId]

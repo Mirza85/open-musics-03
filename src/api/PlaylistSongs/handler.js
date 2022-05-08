@@ -70,7 +70,7 @@ class PlaylistSongsHandler {
 
             const playlist = await this._playlistsService.getPlaylistsById(playlistId);
             const songs = await this._songsService.getSongsByPlaylistId(playlistId);
-            console.log(songs);
+            //console.log(songs);
             playlist.songs = songs;
             return {
                 status: 'success',

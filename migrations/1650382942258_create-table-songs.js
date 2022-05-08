@@ -35,23 +35,28 @@ exports.up = pgm => {
         },
     })
     pgm.createTable('albums', {
-            id: {
-                type: 'VARCHAR(30)',
-                primaryKey: true,
+        id: {
+            type: 'VARCHAR(30)',
+            primaryKey: true,
 
-            },
-            name: {
-                type: 'VARCHAR(30)',
-                notNull: true,
-            },
-            year: {
-                type: 'integer',
-                notNull: true,
-            }
-        })
-        //pgm.createIndex('songs', 'albumId')
+        },
+        name: {
+            type: 'VARCHAR(30)',
+            notNull: true,
+        },
+        year: {
+            type: 'integer',
+            notNull: true,
+        }
+    })
+
+
+
+
 
 };
 
 
-//exports.down = pgm => {};
+exports.down = pgm => {
+    pgm.dropTable('songs')
+};

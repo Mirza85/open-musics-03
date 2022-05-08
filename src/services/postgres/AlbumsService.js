@@ -66,6 +66,18 @@ class AlbumsService {
             throw new NotFoundError('Gagal menghapus Catatan. Id tidak ditemukan');
         }
     }
+
+    async addCoverAlbum(id, { coverUrl }) {
+        const query = {
+            text: 'update albums set "coverUrl" = $1 WHERE id = $2 returning id',
+            values: [coverUrl, id],
+        };
+        const result = await this._pool.query(query);
+
+        if (!result.rows.length) {
+            throw new InvariantError('Cover gagal ditambahkan');
+        }
+    }
 }
 
 module.exports = AlbumsService;

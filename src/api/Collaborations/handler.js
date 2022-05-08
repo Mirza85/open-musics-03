@@ -6,6 +6,11 @@ class Collaborationshandler {
         this._validator = validator;
         this._usersService = userService;
         this._playlistsService = playlistsService;
+
+
+
+        this.postCollaborationHandler = this.postCollaborationHandler.bind(this);
+        this.deleteCollaborationHandler = this.deleteCollaborationHandler.bind(this);
     }
 
     async postCollaborationHandler(request, h) {
@@ -14,12 +19,13 @@ class Collaborationshandler {
             const { id: credentialId } = request.auth.credentials;
             const { playlistId, userId } = request.payload;
 
-            await this._playlistsService.getPlayListById(playlistId);
+            await this._playlistsService.getPlaylistsById(playlistId);
+            //console.log(result)
             await this._usersService.getUserById(userId);
 
             await this._playlistsService.verifyPlaylistOwner(playlistId, credentialId);
 
-            const collaborationId = await this._service.addCollaboraiton(playlistId, userId)
+            const collaborationId = await this._service.addCollaboration(playlistId, userId)
             const response = h.response({
                 status: 'success',
                 data: {
