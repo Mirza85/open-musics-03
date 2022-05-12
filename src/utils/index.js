@@ -20,10 +20,12 @@ const mapDBToAlbumsModel = ({
     id,
     name,
     year,
+    coverUrl,
 }) => ({
     id,
     name,
-    year
+    year,
+    coverUrl,
 })
 
 module.exports = { mapDBToModel, mapDBToAlbumsModel };

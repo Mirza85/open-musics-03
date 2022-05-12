@@ -31,10 +31,12 @@ class AlbumsService {
 
     async getAlbumById(id) {
         const query = {
-            text: 'select * from albums where id = $1',
+            text: 'SELECT * from albums where id= $1',
             values: [id]
         };
+
         const result = await this._pool.query(query);
+
         if (!result.rows.length) {
             throw new NotFoundError('Album tidak ditemukan');
         }
@@ -67,7 +69,8 @@ class AlbumsService {
         }
     }
 
-    async addCoverAlbum(id, { coverUrl }) {
+    async addCoverAlbum(id, coverUrl) {
+        console.log(coverUrl, id)
         const query = {
             text: 'update albums set "coverUrl" = $1 WHERE id = $2 returning id',
             values: [coverUrl, id],
